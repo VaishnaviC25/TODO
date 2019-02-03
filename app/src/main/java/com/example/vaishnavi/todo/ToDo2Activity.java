@@ -72,12 +72,17 @@ public class ToDo2Activity extends AppCompatActivity  {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ToDo2Activity.this);
        // recyclerView.setLayoutManager(linearLayoutManager);
 
-        RealmResults<TaskModel> toDoItems = realmInstance.where(TaskModel.class).findAllAsync();
-        RealmAdapter rAdapter = new RealmAdapter(ToDo2Activity.this, toDoItems);
+        RealmResults<TaskModel> toDoItems = realmInstance.where(TaskModel.class).findAll();
+        ArrayList<TaskModel> results = new ArrayList<>();
+        results.addAll(toDoItems);
+        Log.d("Realm count", String.valueOf(realmInstance.where(TaskModel.class).count()));
+        Log.d("Arraylist Count" , String.valueOf(results.size()));
+        RealmAdapter rAdapter = new RealmAdapter(ToDo2Activity.this, results , recyclerView);
        // RealmAdapter rAdapter = new RealmAdapter(ToDo2Activity.this, getArr1(), recyclerView,this);
+        recyclerView.setAdapter(rAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(rAdapter);
+
     }
 
  /*   public ArrayList<TaskModel> getArr1() {

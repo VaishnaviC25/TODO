@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import io.realm.RealmResults;
 
 import static android.media.CamcorderProfile.get;
 
-public class RealmAdapter extends RealmRecyclerViewAdapter<TaskModel, RealmAdapter.TaskViewHolder>{
+public class RealmAdapter extends RecyclerView.Adapter<RealmAdapter.TaskViewHolder>{
 
   /*  public RealmAdapter(ToDo2Activity activity, ArrayList<TaskModel> arrayList, RecyclerView recyclerView, Context context)
     {
@@ -36,16 +37,17 @@ public class RealmAdapter extends RealmRecyclerViewAdapter<TaskModel, RealmAdapt
     }*/
 
     private ToDo2Activity activity;
-    private View itemView;
-    private Context context;
+    public View itemView;
+    public Context context;
+    private ArrayList<TaskModel> arrayList;
+    public RecyclerView recyclerView;
 
-    public RealmAdapter(Context context,OrderedRealmCollection<TaskModel> data) {
-        super( data,true);
+    public RealmAdapter(Context context,ArrayList<TaskModel> arrayList, RecyclerView recyclerView) {
         this.context = context;
+        this.arrayList = arrayList;
+        this.recyclerView = recyclerView;
     }
 
-    private ArrayList<TaskModel> arrayList;
-    private RecyclerView recyclerView;
 
 
     @Override
@@ -57,16 +59,21 @@ public class RealmAdapter extends RealmRecyclerViewAdapter<TaskModel, RealmAdapt
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
 
-        TaskModel mTaskModel = getData().get(position);
-        final TaskObject taskModel = new TaskObject(mTaskModel.getId(), mTaskModel.getName(), mTaskModel.getDescription(),
-                mTaskModel.getDateTime(), mTaskModel.getCategory(), mTaskModel.getReminder());
+        //TaskModel mTaskModel = getData().get(position);
+        //final TaskObject taskModel = new TaskObject(mTaskModel.getId(), mTaskModel.getName(), mTaskModel.getDescription(),
+        //        mTaskModel.getDateTime(), mTaskModel.getCategory(), mTaskModel.getReminder());
 
-        holder.taskName.setText(mTaskModel.getName());
-        if(!TextUtils.isEmpty(mTaskModel.getDateTime())){
-            holder.taskDueDate.setText(mTaskModel.getDateTime());
+        TaskModel taskModel = arrayList.get(position);
+
+        Log.d("Name in bind",taskModel.getName());
+
+
+        holder.taskName.setText(taskModel.getName());
+        /*if(!TextUtils.isEmpty(taskModel.getDateTime())){
+            //holder.taskDueDate.setText(taskModel.getDateTime());
         }else{
-            holder.taskDueDate.setText(R.string.no_time);
-        }
+            //holder.taskDueDate.setText(R.string.no_time);
+        }*/
 
       /*  TaskModel taskModel = arrayList.get(position);
         holder.taskName.setText(taskModel.getName());
@@ -91,7 +98,7 @@ public class RealmAdapter extends RealmRecyclerViewAdapter<TaskModel, RealmAdapt
 
     @Override
     public int getItemCount() {
-        return 0;
+        return  arrayList != null ? arrayList.size() : 0;
     }
 
     class TaskViewHolder extends RecyclerView.ViewHolder{
