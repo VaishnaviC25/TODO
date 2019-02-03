@@ -12,6 +12,7 @@
     >
 
 
+
     <TextView
         android:id="@+id/task_name"
         android:layout_width="218dp"
@@ -38,4 +39,6 @@
         android:layout_marginStart="75dp"
         android:layout_marginTop="8dp" />
 
-</RelativeLayout>
+   </RelativeLayout>
+
+

@@ -44,12 +44,8 @@ public class ToDo2Activity extends AppCompatActivity  {
         setContentView(R.layout.activity_to_do2);
 
        // super.onCreate();
-        Realm.init(this);
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder()
-                .name("todo.realm")
-                .schemaVersion(0)
-                .build();
-        Realm.setDefaultConfiguration(realmConfig);
+
+
 
         realmInstance = Realm.getDefaultInstance();
 
@@ -61,18 +57,20 @@ public class ToDo2Activity extends AppCompatActivity  {
                 addTaskDialog();
             }
         });
+
         recyclerView = (RecyclerView)findViewById(R.id.task_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ToDo2Activity.this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-      //  RealmResults<TaskModel> toDoItems = realmInstance.where(TaskModel.class).findAllAsync();
+       // recyclerView.setLayoutManager(linearLayoutManager);
 
-        //    OrderedRealmCollection<TaskModel> toDoItems = realmInstance.where(TaskModel.class).findAllAsync();
-        RealmAdapter rAdapter = new RealmAdapter(ToDo2Activity.this, getArr1(), recyclerView,this);
+        RealmResults<TaskModel> toDoItems = realmInstance.where(TaskModel.class).findAllAsync();
+        RealmAdapter rAdapter = new RealmAdapter(ToDo2Activity.this, toDoItems);
+       // RealmAdapter rAdapter = new RealmAdapter(ToDo2Activity.this, getArr1(), recyclerView,this);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(rAdapter);
     }
 
-    public ArrayList<TaskModel> getArr1() {
+ /*   public ArrayList<TaskModel> getArr1() {
         ArrayList<TaskModel> arr1 = new ArrayList<>();
         realmInstance = Realm.getDefaultInstance();
         RealmResults<TaskModel> toDoItems = realmInstance.where(TaskModel.class).findAllAsync();
@@ -82,7 +80,7 @@ public class ToDo2Activity extends AppCompatActivity  {
         }
 
         return arr1;
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -25,20 +25,28 @@ import io.realm.RealmResults;
 
 import static android.media.CamcorderProfile.get;
 
-public class RealmAdapter extends RecyclerView.Adapter<RealmAdapter.TaskViewHolder>{
+public class RealmAdapter extends RealmRecyclerViewAdapter<TaskModel, RealmAdapter.TaskViewHolder>{
 
-    public RealmAdapter(ToDo2Activity activity, ArrayList<TaskModel> arrayList, RecyclerView recyclerView, Context context) {
+  /*  public RealmAdapter(ToDo2Activity activity, ArrayList<TaskModel> arrayList, RecyclerView recyclerView, Context context)
+    {
         this.activity = activity;
         this.arrayList = arrayList;
         this.recyclerView = recyclerView;
         this.context = context;
-    }
+    }*/
 
     private ToDo2Activity activity;
     private View itemView;
+    private Context context;
+
+    public RealmAdapter(Context context,OrderedRealmCollection<TaskModel> data) {
+        super( data,true);
+        this.context = context;
+    }
+
     private ArrayList<TaskModel> arrayList;
     private RecyclerView recyclerView;
-    private Context context;
+
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,16 +56,28 @@ public class RealmAdapter extends RecyclerView.Adapter<RealmAdapter.TaskViewHold
     }
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
-        TaskModel taskModel = arrayList.get(position);
-      //  holder.taskName.setText(taskModel.getName());
-        holder.taskName.setText("aaa");
+
+        TaskModel mTaskModel = getData().get(position);
+        final TaskObject taskModel = new TaskObject(mTaskModel.getId(), mTaskModel.getName(), mTaskModel.getDescription(),
+                mTaskModel.getDateTime(), mTaskModel.getCategory(), mTaskModel.getReminder());
+
+        holder.taskName.setText(mTaskModel.getName());
+        if(!TextUtils.isEmpty(mTaskModel.getDateTime())){
+            holder.taskDueDate.setText(mTaskModel.getDateTime());
+        }else{
+            holder.taskDueDate.setText(R.string.no_time);
+        }
+
+      /*  TaskModel taskModel = arrayList.get(position);
+        holder.taskName.setText(taskModel.getName());
+      //  holder.taskName.setText("aaa");
         if(!TextUtils.isEmpty(taskModel.getDateTime())){
             holder.taskDueDate.setText(taskModel.getDateTime());
         }else{
             holder.taskDueDate.setText(R.string.no_time);
-        }
+        }*/
       //  holder.taskCategory.setText(taskModel.getCategory());
-        /*itemView.setOnClickListener(new View.OnClickListener() {
+      /*  itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent viewTaskIntent = new Intent(context, ViewTaskActivity.class);
