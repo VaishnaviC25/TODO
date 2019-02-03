@@ -6,6 +6,6 @@
         android:id="@+id/action_add_task"
         android:orderInCategory="200"
         android:title="@string/add_new_menu_task"
-        android:icon="@drawable/mark"
+        android:icon="@android:drawable/ic_menu_save"
         app:showAsAction="ifRoom" />
 </menu>

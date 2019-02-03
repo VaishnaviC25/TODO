@@ -53,6 +53,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         realm = Realm.getDefaultInstance();
+
         taskName = (EditText)findViewById(R.id.add_task_name);
         taskDescription = (EditText)findViewById(R.id.add_task_description);
         taskDueDate = (EditText)findViewById(R.id.add_task_ending);
