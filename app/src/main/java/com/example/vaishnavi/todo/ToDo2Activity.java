@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.example.vaishnavi.todo.adapter.CustomArrayAdapter;
 import com.example.vaishnavi.todo.adapter.RealmAdapter;
 import com.example.vaishnavi.todo.realm.TaskModel;
+import com.facebook.stetho.Stetho;
+import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import java.util.ArrayList;
 
@@ -43,9 +45,17 @@ public class ToDo2Activity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do2);
 
+
        // super.onCreate();
 
 
+
+
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+                        .build());
 
         realmInstance = Realm.getDefaultInstance();
 
@@ -100,8 +110,6 @@ public class ToDo2Activity extends AppCompatActivity  {
     private void addTaskDialog(){
         LayoutInflater inflater = LayoutInflater.from(this);
         View subView = inflater.inflate(R.layout.activity_add_task, null);
-          addTaskName = (EditText)subView.findViewById(R.id.add_task_name);
-         addTaskDescription = (EditText)subView.findViewById(R.id.add_task_description);
 
 
         //Spinner addTaskCategory = (Spinner)subView.findViewById(R.id.select_category);
@@ -118,19 +126,19 @@ public class ToDo2Activity extends AppCompatActivity  {
         mArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         addTaskCategory.setAdapter(mArrayAdapter);*/
 
-       String taskName = addTaskName.getText().toString();
-       String taskDescription = addTaskDescription.getText().toString();
-
-
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add a new task");
         builder.setView(subView);
         builder.create();
+        addTaskName = subView.findViewById(R.id.add_task_name);
+        addTaskDescription = subView.findViewById(R.id.add_task_description);
+
         builder.setPositiveButton("ADD TASK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String taskName = addTaskName.getText().toString();
+                String taskDescription = addTaskDescription.getText().toString();
+
                 if(TextUtils.isEmpty(taskName) || TextUtils.isEmpty(taskDescription)){
                     Toast.makeText(ToDo2Activity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
                 }
@@ -142,18 +150,19 @@ public class ToDo2Activity extends AppCompatActivity  {
                 Log.d("task name", taskName);
                 Log.d("desc",taskDescription);
 
-                    TaskModel tModel = new TaskModel();
-                    tModel.setId((int) realmInstance.where(TaskModel.class).count());
-                    tModel.setName(taskName);
-                    tModel.setDescription(taskDescription);
+                    long id = realmInstance.where(TaskModel.class).count();
 
                     realmInstance.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                           realm.copyToRealmOrUpdate(tModel);
+                            TaskModel tModel = realmInstance.createObject(TaskModel.class, id);
+                            tModel.setName(taskName);
+                            tModel.setDescription(taskDescription);
+                            tModel.setCategory(selectedCategory);
                         }
                     });
-                    Toast.makeText(ToDo2Activity.this,"data copied sucessfully",Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(ToDo2Activity.this,"Data Saved To realm Successfully",Toast.LENGTH_SHORT).show();
                 }
             }
         });
