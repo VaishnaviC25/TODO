@@ -50,6 +50,8 @@ public class RealmAdapter extends RecyclerView.Adapter<RealmAdapter.TaskViewHold
 
 
 
+
+
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_layout, parent, false);

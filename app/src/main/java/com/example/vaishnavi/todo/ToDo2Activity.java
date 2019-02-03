@@ -83,6 +83,10 @@ public class ToDo2Activity extends AppCompatActivity  {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+
+
+
+
     }
 
  /*   public ArrayList<TaskModel> getArr1() {
