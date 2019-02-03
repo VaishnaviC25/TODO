@@ -123,6 +123,8 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         addTaskTime.setOnClickListener(this);
         deleteTaskTime.setOnClickListener(this);
 
+        Toast.makeText(this,"Dummy",Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
