@@ -7,12 +7,11 @@ public class TaskObject{
     private String dateTime;
     private String category;
     private boolean reminder;
-    public TaskObject(int id, String name, String description, String dateTime, String category, boolean reminder) {
+    public TaskObject(int id, String name, String description, String dateTime, boolean reminder) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.dateTime = dateTime;
-        this.category = category;
         this.reminder = reminder;
     }
     public TaskObject(String name, String description, String dateTime, String category, boolean reminder) {

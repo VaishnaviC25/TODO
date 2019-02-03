@@ -3,6 +3,7 @@ package com.example.vaishnavi.todo;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
@@ -124,7 +125,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         addTaskTime.setOnClickListener(this);
         deleteTaskTime.setOnClickListener(this);
 
-        Toast.makeText(this,"Dummy",Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(this,"Dummy",Toast.LENGTH_SHORT).show();
 
     }
 
@@ -193,7 +194,11 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 mModel.setReminder(isAlarm);
             }
         });
+
         resetViewInput();
+        finish();
+        Intent addTaskIntent = new Intent(AddTaskActivity.this, ToDo2Activity.class);
+        startActivity(addTaskIntent);
     }
 
     public static class TimePicker extends DialogFragment implements TimePickerDialog.OnTimeSetListener {

@@ -3,6 +3,7 @@ package com.example.vaishnavi.todo;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
@@ -52,6 +53,7 @@ public class EditTaskActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         String taskStringObject = getIntent().getExtras().getString("TASK_OBJECT");
         taskObject = ((CustomApplication)getApplication()).getGsonObject().fromJson(taskStringObject, TaskObject.class);
+
         taskName = (EditText)findViewById(R.id.add_task_name);
         taskDescription = (EditText)findViewById(R.id.add_task_description);
         taskDueDate = (EditText)findViewById(R.id.add_task_ending);
@@ -83,6 +85,7 @@ public class EditTaskActivity extends AppCompatActivity {
                 }
             }
         });
+
         // populate task category to the spinner object
    /*     taskCategory = (Spinner)findViewById(R.id.select_category);
         CustomArrayAdapter mArrayAdapter = new CustomArrayAdapter(EditTaskActivity.this, R.layout.spinner_list, getResources().getStringArray(R.array.select_task_category));
@@ -98,6 +101,8 @@ public class EditTaskActivity extends AppCompatActivity {
             }
         });*/
         //add task date
+
+
         ImageView addTaskDate = (ImageView)findViewById(R.id.add_task_date);
         addTaskDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,14 +153,14 @@ public class EditTaskActivity extends AppCompatActivity {
         String description = taskDescription.getText().toString();
         String dueDate = taskDueDate.getText().toString();
         String dueTime = taskDueTime.getText().toString();
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(description) || TextUtils.isEmpty(selectedCategory)) {
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(description)) {
             Toast.makeText(EditTaskActivity.this, R.string.invalid_input_values, Toast.LENGTH_LONG).show();
         } else if (TextUtils.isEmpty(dueDate) || TextUtils.isEmpty(dueTime)) {
             Toast.makeText(EditTaskActivity.this, R.string.task_date_and_time, Toast.LENGTH_LONG).show();
         } else {
             //add task to realm database
             long currentRowId = getLastInsertedRowId();
-            String[] databaseValues = new String[]{name, description, selectedCategory, dueDate, dueTime};
+            String[] databaseValues = new String[]{name, description, dueDate, dueTime};
             addNewTaskToRealmDatabase(databaseValues, isAlarmSet);
         }
     }
@@ -167,13 +172,16 @@ public class EditTaskActivity extends AppCompatActivity {
                 TaskModel mModel = realm.where(TaskModel.class).equalTo("id", taskObject.getId()).findFirst();
                 mModel.setName(columnValues[0]);
                 mModel.setDescription(columnValues[1]);
-                mModel.setCategory(columnValues[2]);
-                mModel.setDateTime(columnValues[3] + " " + columnValues[4]);
+                mModel.setDateTime(columnValues[2] + " " + columnValues[3]);
                 mModel.setReminder(isAlarm);
             }
         });
         resetViewInput();
+        finish();
+        Intent addTaskIntent = new Intent(EditTaskActivity.this, ToDo2Activity.class);
+        startActivity(addTaskIntent);
     }
+
     public static class TimePicker extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -203,7 +211,8 @@ public class EditTaskActivity extends AppCompatActivity {
         }
     }
     private long getLastInsertedRowId(){
-        long id = realm.where(TaskModel.class).max("id").longValue();
+        //long id = realm.where(TaskModel.class).max("id").longValue();
+        long id=realm.where(TaskModel.class).count();
         return id + 1;
     }
     private void resetViewInput(){

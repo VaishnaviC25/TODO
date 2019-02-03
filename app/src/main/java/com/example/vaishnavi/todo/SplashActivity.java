@@ -27,6 +27,7 @@ public class SplashActivity extends AppCompatActivity {
         tapImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
                 Intent tapIntent = new Intent(SplashActivity.this, ToDo2Activity.class);
                 startActivity(tapIntent);
             }

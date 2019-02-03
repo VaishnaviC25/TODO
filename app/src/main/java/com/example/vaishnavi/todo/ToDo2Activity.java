@@ -45,12 +45,6 @@ public class ToDo2Activity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do2);
 
-
-       // super.onCreate();
-
-
-
-
      /*   Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
                         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
@@ -59,14 +53,14 @@ public class ToDo2Activity extends AppCompatActivity  {
 
         realmInstance = Realm.getDefaultInstance();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    /*    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // add new quick task
                 addTaskDialog();
             }
-        });
+        });*/
 
         recyclerView = (RecyclerView)findViewById(R.id.task_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ToDo2Activity.this);
@@ -77,8 +71,9 @@ public class ToDo2Activity extends AppCompatActivity  {
         results.addAll(toDoItems);
         Log.d("Realm count", String.valueOf(realmInstance.where(TaskModel.class).count()));
         Log.d("Arraylist Count" , String.valueOf(results.size()));
-        RealmAdapter rAdapter = new RealmAdapter(ToDo2Activity.this, results , recyclerView);
+        RealmAdapter rAdapter = new RealmAdapter(ToDo2Activity.this, results , recyclerView,ToDo2Activity.this);
        // RealmAdapter rAdapter = new RealmAdapter(ToDo2Activity.this, getArr1(), recyclerView,this);
+        recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
         recyclerView.setAdapter(rAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -111,12 +106,13 @@ public class ToDo2Activity extends AppCompatActivity  {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.action_add_task){
+            finish();
             Intent addTaskIntent = new Intent(ToDo2Activity.this, AddTaskActivity.class);
             startActivity(addTaskIntent);
         }
         return super.onOptionsItemSelected(item);
     }
-    private void addTaskDialog(){
+  /*  private void addTaskDialog(){
         LayoutInflater inflater = LayoutInflater.from(this);
         View subView = inflater.inflate(R.layout.activity_add_task, null);
 
@@ -135,7 +131,7 @@ public class ToDo2Activity extends AppCompatActivity  {
         mArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         addTaskCategory.setAdapter(mArrayAdapter);*/
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    /*    AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add a new task");
         builder.setView(subView);
         builder.create();
@@ -189,7 +185,7 @@ public class ToDo2Activity extends AppCompatActivity  {
     private long getLastInsertedRowId(){
         long id = realmInstance.where(TaskModel.class).max("id").longValue();
         return id + 1;
-    }
+    }*/
     @Override
     protected void onDestroy() {
         super.onDestroy();

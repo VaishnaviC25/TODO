@@ -62,11 +62,13 @@ public class ViewTaskActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.action_delete_task){
             deleteSingleRowInDatabase(viewTaskObject.getId());
+            finish();
             Intent listTaskIntent = new Intent(ViewTaskActivity.this, ToDo2Activity.class);
             startActivity(listTaskIntent);
             return true;
         }
         if(id == R.id.action_edit_task){
+            finish();
             Intent editTaskIntent = new Intent(ViewTaskActivity.this, EditTaskActivity.class);
             String editObject = ((CustomApplication)getApplication()).getGsonObject().toJson(viewTaskObject);
             editTaskIntent.putExtra("TASK_OBJECT", editObject);
