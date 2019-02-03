@@ -22,8 +22,8 @@ import android.widget.Toast;
 import com.example.vaishnavi.todo.adapter.CustomArrayAdapter;
 import com.example.vaishnavi.todo.adapter.RealmAdapter;
 import com.example.vaishnavi.todo.realm.TaskModel;
-import com.facebook.stetho.Stetho;
-import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
+//import com.facebook.stetho.Stetho;
+//import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import java.util.ArrayList;
 
@@ -51,11 +51,11 @@ public class ToDo2Activity extends AppCompatActivity  {
 
 
 
-        Stetho.initialize(
+     /*   Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
                         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                         .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
-                        .build());
+                        .build());*/
 
         realmInstance = Realm.getDefaultInstance();
 
