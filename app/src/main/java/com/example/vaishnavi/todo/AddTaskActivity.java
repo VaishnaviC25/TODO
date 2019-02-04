@@ -29,12 +29,10 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     private static final String TAG = AddTaskActivity.class.getSimpleName();
     private EditText taskName;
     private EditText taskDescription;
-    private Spinner taskCategory;
     private static EditText taskDueDate;
     private static EditText taskDueTime;
     private CheckBox reminder;
     private boolean isAlarmSet = false;
-    private String selectedCategory;
     private static String selectedTime;
     private static String selectedDate;
     private Realm realm;
@@ -70,51 +68,6 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
-        // populate task category to the spinner object
-    //    taskCategory = (Spinner)findViewById(R.id.select_category);
-      /*  CustomArrayAdapter mArrayAdapter = new CustomArrayAdapter(AddTaskActivity.this, R.layout.spinner_list, getResources().getStringArray(R.array.select_task_category));
-        mArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        taskCategory.setAdapter(mArrayAdapter);
-        taskCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedCategory = (String)adapterView.getItemAtPosition(i);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });*/
-        //add task date
-       /* ImageView addTaskDate = (ImageView)findViewById(R.id.add_task_date);
-        addTaskDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new DatePickerFragment().show(getSupportFragmentManager(), "Task Date");
-            }
-        });
-        // delete task date
-       ImageView deleteTaskDate = (ImageView)findViewById(R.id.delete_task_date);
-        deleteTaskDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                taskDueDate.setText("");
-            }
-        });
-
-        ImageView addTaskTime = (ImageView)findViewById(R.id.add_task_time);
-        addTaskTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new TimePicker().show(getSupportFragmentManager(), "Task Time");
-            }
-        });
-        ImageView deleteTaskTime = (ImageView)findViewById(R.id.delete_task_time);
-        deleteTaskTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                taskDueTime.setText("");
-            }
-        });*/
         addTaskDate = (ImageView)findViewById(R.id.add_task_date);
         deleteTaskDate = (ImageView)findViewById(R.id.delete_task_date);
          addTaskTime = (ImageView)findViewById(R.id.add_task_time);
@@ -124,9 +77,6 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         deleteTaskDate.setOnClickListener(this);
         addTaskTime.setOnClickListener(this);
         deleteTaskTime.setOnClickListener(this);
-
-    //    Toast.makeText(this,"Dummy",Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -149,7 +99,6 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 taskDueTime.setText("");
             }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -230,7 +179,6 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
     private long getLastInsertedRowId(){
-      //  long id = realm.where(TaskModel.class).max("id").longValue();
         long id=realm.where(TaskModel.class).count();
         return id + 1;
     }

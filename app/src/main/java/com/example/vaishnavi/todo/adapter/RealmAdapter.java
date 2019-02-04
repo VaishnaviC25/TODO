@@ -29,14 +29,6 @@ import static android.media.CamcorderProfile.get;
 
 public class RealmAdapter extends RecyclerView.Adapter<RealmAdapter.TaskViewHolder>{
 
-  /*  public RealmAdapter(ToDo2Activity activity, ArrayList<TaskModel> arrayList, RecyclerView recyclerView, Context context)
-    {
-        this.activity = activity;
-        this.arrayList = arrayList;
-        this.recyclerView = recyclerView;
-        this.context = context;
-    }*/
-
     private ToDo2Activity activity;
     public View itemView;
     public Context context;
@@ -49,10 +41,6 @@ public class RealmAdapter extends RecyclerView.Adapter<RealmAdapter.TaskViewHold
         this.recyclerView = recyclerView;
         this.activity = activity;
     }
-
-
-
-
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -68,21 +56,15 @@ public class RealmAdapter extends RecyclerView.Adapter<RealmAdapter.TaskViewHold
         final TaskObject taskModel = new TaskObject(mTaskModel.getId(), mTaskModel.getName(), mTaskModel.getDescription(),
                 mTaskModel.getDateTime(), mTaskModel.getReminder());
 
-
-
         Log.d("Name in bind",taskModel.getName());
 
         holder.dot.setText(Html.fromHtml("&#8226;"));
-
         holder.taskName.setText(mTaskModel.getName());
         if(!TextUtils.isEmpty(mTaskModel.getDateTime())){
             holder.taskDueDate.setText(mTaskModel.getDateTime());
         }else{
             holder.taskDueDate.setText(R.string.no_time);
         }
-
-
-      //  holder.taskCategory.setText(taskModel.getCategory());
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,13 +87,11 @@ public class RealmAdapter extends RecyclerView.Adapter<RealmAdapter.TaskViewHold
         public TextView taskName;
         public TextView taskDueDate;
         public TextView dot;
-   //     public TextView taskCategory;
         public TaskViewHolder(View itemView) {
             super(itemView);
             taskName = (TextView)itemView.findViewById(R.id.task_name);
             taskDueDate = (TextView)itemView.findViewById(R.id.task_date_time);
             dot = itemView.findViewById(R.id.dot);
-         //   taskCategory = (TextView)itemView.findViewById(R.id.task_category);
         }
     }
 }

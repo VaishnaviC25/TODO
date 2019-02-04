@@ -31,13 +31,12 @@ public class ViewTaskActivity extends AppCompatActivity {
         viewTaskObject = ((CustomApplication)getApplication()).getGsonObject().fromJson(taskObject, TaskObject.class);
         TextView viewTaskName = (TextView)findViewById(R.id.view_task_name);
         TextView viewTaskDescription = (TextView)findViewById(R.id.view_task_description);
-      //  TextView viewTaskCategory = (TextView)findViewById(R.id.view_task_category);
         TextView viewTaskDueDate = (TextView)findViewById(R.id.view_task_due_date);
         TextView reminderState = (TextView)findViewById(R.id.alarm_state);
         if(viewTaskObject != null){
             viewTaskName.setText(viewTaskObject.getName());
             viewTaskDescription.setText(viewTaskObject.getDescription());
-      //      viewTaskCategory.setText(viewTaskObject.getCategory());
+
             if(TextUtils.isEmpty(viewTaskObject.getDateTime())){
                 viewTaskDueDate.setText("Due date not set");
             }else{

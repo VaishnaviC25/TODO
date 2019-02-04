@@ -31,12 +31,10 @@ public class EditTaskActivity extends AppCompatActivity {
     private static final String TAG = EditTaskActivity.class.getSimpleName();
     private EditText taskName;
     private EditText taskDescription;
-    private Spinner taskCategory;
     private static EditText taskDueDate;
     private static EditText taskDueTime;
     private CheckBox reminder;
     private boolean isAlarmSet = false;
-    private String selectedCategory;
     private static String selectedTime;
     private static String selectedDate;
     private Realm realm;
@@ -85,23 +83,6 @@ public class EditTaskActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // populate task category to the spinner object
-   /*     taskCategory = (Spinner)findViewById(R.id.select_category);
-        CustomArrayAdapter mArrayAdapter = new CustomArrayAdapter(EditTaskActivity.this, R.layout.spinner_list, getResources().getStringArray(R.array.select_task_category));
-        mArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        taskCategory.setAdapter(mArrayAdapter);
-        taskCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedCategory = (String)adapterView.getItemAtPosition(i);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });*/
-        //add task date
-
 
         ImageView addTaskDate = (ImageView)findViewById(R.id.add_task_date);
         addTaskDate.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +192,6 @@ public class EditTaskActivity extends AppCompatActivity {
         }
     }
     private long getLastInsertedRowId(){
-        //long id = realm.where(TaskModel.class).max("id").longValue();
         long id=realm.where(TaskModel.class).count();
         return id + 1;
     }
